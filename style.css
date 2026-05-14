@@ -1,16 +1,16 @@
 :root {
-    --bg-color: #0f172a;
-    --card-bg: rgba(30, 41, 59, 0.7);
-    --text-primary: #f8fafc;
-    --text-secondary: #94a3b8;
+    --bg-color: #ffffff;
+    --card-bg: rgba(255, 255, 255, 0.7);
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
     --accent-primary: #3b82f6;
     --accent-hover: #2563eb;
     --accent-a: #ef4444;
     /* red for less efficient usually but let's make it generic */
     --accent-b: #10b981;
     /* green for alternative */
-    --border-color: rgba(255, 255, 255, 0.1);
-    --glass-border: rgba(255, 255, 255, 0.05);
+    --border-color: rgba(0, 0, 0, 0.1);
+    --glass-border: rgba(0, 0, 0, 0.05);
 }
 
 * {
@@ -196,7 +196,7 @@ header p {
 
 input,
 select {
-    background: rgba(15, 23, 42, 0.6);
+    background: rgba(255, 255, 255, 0.9);
     border: 1px solid var(--border-color);
     color: var(--text-primary);
     padding: 0.75rem 1rem;
