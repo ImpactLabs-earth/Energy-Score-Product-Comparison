@@ -1,16 +1,14 @@
 :root {
-    --bg-color: #ffffff;
-    --card-bg: rgba(255, 255, 255, 0.7);
-    --text-primary: #0f172a;
-    --text-secondary: #475569;
+    --bg-color: #0f172a;
+    --card-bg: rgba(30, 41, 59, 0.7);
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
     --accent-primary: #3b82f6;
     --accent-hover: #2563eb;
     --accent-a: #ef4444;
-    /* red for less efficient usually but let's make it generic */
     --accent-b: #10b981;
-    /* green for alternative */
-    --border-color: rgba(0, 0, 0, 0.1);
-    --glass-border: rgba(0, 0, 0, 0.05);
+    --border-color: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.05);
 }
 
 * {
@@ -69,13 +67,8 @@ body {
 }
 
 @keyframes float {
-    0% {
-        transform: translate(0, 0) scale(1);
-    }
-
-    100% {
-        transform: translate(30px, -50px) scale(1.1);
-    }
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(30px, -50px) scale(1.1); }
 }
 
 .container {
@@ -132,6 +125,48 @@ header p {
     font-weight: 600;
 }
 
+/* Product Selection */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+}
+
+.product-item {
+    background: rgba(15, 23, 42, 0.6);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.product-item:hover {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: rgba(59, 130, 246, 0.5);
+    transform: translateY(-2px);
+}
+
+.product-item.active {
+    background: rgba(59, 130, 246, 0.2);
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+}
+
+.product-icon {
+    font-size: 2.5rem;
+}
+
+.product-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
 /* Layouts */
 .settings-card {
     display: flex;
@@ -171,15 +206,8 @@ header p {
     text-transform: uppercase;
 }
 
-.badge-a {
-    background: rgba(239, 68, 68, 0.2);
-    color: #fca5a5;
-}
-
-.badge-b {
-    background: rgba(16, 185, 129, 0.2);
-    color: #6ee7b7;
-}
+.badge-a { background: rgba(239, 68, 68, 0.2); color: #fca5a5; }
+.badge-b { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; }
 
 /* Form Controls */
 .input-group {
@@ -194,9 +222,8 @@ header p {
     margin-bottom: 0.5rem;
 }
 
-input,
-select {
-    background: rgba(255, 255, 255, 0.9);
+input, select {
+    background: rgba(15, 23, 42, 0.6);
     border: 1px solid var(--border-color);
     color: var(--text-primary);
     padding: 0.75rem 1rem;
@@ -207,8 +234,7 @@ select {
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-input:focus,
-select:focus {
+input:focus, select:focus {
     border-color: var(--accent-primary);
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
 }
@@ -256,15 +282,8 @@ button:active {
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .summary-box {
