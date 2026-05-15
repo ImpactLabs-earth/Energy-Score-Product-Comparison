@@ -4,40 +4,76 @@ const products = {
         id: 'fridge',
         name: "Refrigerator",
         icon: "❄️",
-        mfgCo2: 300,
+        mfgCo2: 257,
+        classes: {
+            A: { kwh: 105, price: 1100, lifetime: 15 },
+            B: { kwh: 130, price: 950, lifetime: 14 },
+            C: { kwh: 160, price: 800, lifetime: 13 },
+            D: { kwh: 200, price: 650, lifetime: 12 },
+            E: { kwh: 240, price: 500, lifetime: 11 },
+            F: { kwh: 290, price: 400, lifetime: 10 },
+            G: { kwh: 350, price: 320, lifetime: 9 }
+        },
         defaults: {
-            f1: { price: 300, label: 'F', kwh: 300 },
-            f2: { price: 800, label: 'A', kwh: 100 }
+            f1: { label: 'F' },
+            f2: { label: 'A' }
         }
     },
     washing_machine: {
         id: 'washing_machine',
         name: "Washing Machine",
         icon: "🧺",
-        mfgCo2: 250,
+        mfgCo2: 342,
+        classes: {
+            A: { kwh: 48, price: 850, lifetime: 15 },
+            B: { kwh: 54, price: 700, lifetime: 14 },
+            C: { kwh: 62, price: 550, lifetime: 13 },
+            D: { kwh: 69, price: 480, lifetime: 12 },
+            E: { kwh: 76, price: 420, lifetime: 11 },
+            F: { kwh: 83, price: 380, lifetime: 10 },
+            G: { kwh: 92, price: 330, lifetime: 9 }
+        },
         defaults: {
-            f1: { price: 250, label: 'E', kwh: 220 },
-            f2: { price: 600, label: 'A', kwh: 110 }
+            f1: { label: 'E' },
+            f2: { label: 'A' }
         }
     },
     dishwasher: {
         id: 'dishwasher',
         name: "Dishwasher",
         icon: "🍽️",
-        mfgCo2: 200,
+        mfgCo2: 271,
+        classes: {
+            A: { kwh: 54, price: 950, lifetime: 15 },
+            B: { kwh: 64, price: 800, lifetime: 14 },
+            C: { kwh: 74, price: 650, lifetime: 13 },
+            D: { kwh: 84, price: 550, lifetime: 12 },
+            E: { kwh: 94, price: 450, lifetime: 11 },
+            F: { kwh: 104, price: 400, lifetime: 10 },
+            G: { kwh: 115, price: 350, lifetime: 9 }
+        },
         defaults: {
-            f1: { price: 250, label: 'F', kwh: 250 },
-            f2: { price: 700, label: 'B', kwh: 150 }
+            f1: { label: 'F' },
+            f2: { label: 'B' }
         }
     },
     tv: {
         id: 'tv',
         name: "Television",
         icon: "📺",
-        mfgCo2: 400,
+        mfgCo2: 555,
+        classes: {
+            A: { kwh: 35, price: 1500, lifetime: 15 },
+            B: { kwh: 45, price: 1200, lifetime: 14 },
+            C: { kwh: 55, price: 1000, lifetime: 13 },
+            D: { kwh: 65, price: 850, lifetime: 12 },
+            E: { kwh: 80, price: 700, lifetime: 11 },
+            F: { kwh: 100, price: 550, lifetime: 10 },
+            G: { kwh: 130, price: 450, lifetime: 9 }
+        },
         defaults: {
-            f1: { price: 300, label: 'G', kwh: 150 },
-            f2: { price: 1000, label: 'C', kwh: 80 }
+            f1: { label: 'G' },
+            f2: { label: 'C' }
         }
     }
 };
@@ -58,50 +94,8 @@ Object.values(products).forEach(prod => {
     productGrid.appendChild(div);
 });
 
-function selectProduct(id) {
-    currentProduct = id;
-    
-    // Update active class
-    document.querySelectorAll('.product-item').forEach(el => {
-        el.classList.toggle('active', el.dataset.id === id);
-    });
-
-    const prod = products[id];
-    
-    // Update titles
-    document.getElementById('title-a').textContent = `${prod.name} A`;
-    document.getElementById('title-b').textContent = `${prod.name} B`;
-    
-    // Update global settings
-    document.getElementById('mfg-co2').value = prod.mfgCo2;
-    
-    // Update inputs F1
-    document.getElementById('f1-price').value = prod.defaults.f1.price;
-    document.getElementById('f1-label').value = prod.defaults.f1.label;
-    document.getElementById('f1-kwh').value = prod.defaults.f1.kwh;
-    
-    // Update inputs F2
-    document.getElementById('f2-price').value = prod.defaults.f2.price;
-    document.getElementById('f2-label').value = prod.defaults.f2.label;
-    document.getElementById('f2-kwh').value = prod.defaults.f2.kwh;
-
-    // Hide results if we change product category to avoid stale data
-    document.getElementById('results').classList.add('hidden');
-}
-
-
-// Data mapping for Energy Label generic consumption (optional UX sync)
-const labelToKwh = {
-    'A': 100,
-    'B': 130,
-    'C': 160,
-    'D': 200,
-    'E': 250,
-    'F': 300,
-    'G': 350
-};
-
 // Elements
+const countrySelect = document.getElementById('country');
 const elecPriceInput = document.getElementById('elec-price');
 const co2IntensityInput = document.getElementById('co2-intensity');
 const mfgCo2Input = document.getElementById('mfg-co2');
@@ -109,10 +103,12 @@ const mfgCo2Input = document.getElementById('mfg-co2');
 const f1PriceInput = document.getElementById('f1-price');
 const f1LabelInput = document.getElementById('f1-label');
 const f1KwhInput = document.getElementById('f1-kwh');
+const f1LifetimeInput = document.getElementById('f1-lifetime');
 
 const f2PriceInput = document.getElementById('f2-price');
 const f2LabelInput = document.getElementById('f2-label');
 const f2KwhInput = document.getElementById('f2-kwh');
+const f2LifetimeInput = document.getElementById('f2-lifetime');
 
 const calculateBtn = document.getElementById('calculate-btn');
 const resultsContainer = document.getElementById('results');
@@ -123,9 +119,56 @@ const verdictText = document.getElementById('verdict-text');
 let costChartInstance = null;
 let co2ChartInstance = null;
 
-// Auto-fill kWh based on label change if desired (simple logic for now)
+function selectProduct(id) {
+    currentProduct = id;
+    
+    document.querySelectorAll('.product-item').forEach(el => {
+        el.classList.toggle('active', el.dataset.id === id);
+    });
+
+    const prod = products[id];
+    
+    document.getElementById('title-a').textContent = `${prod.name} A`;
+    document.getElementById('title-b').textContent = `${prod.name} B`;
+    mfgCo2Input.value = prod.mfgCo2;
+    
+    const label1 = prod.defaults.f1.label;
+    f1LabelInput.value = label1;
+    f1PriceInput.value = prod.classes[label1].price;
+    f1KwhInput.value = prod.classes[label1].kwh;
+    f1LifetimeInput.value = prod.classes[label1].lifetime;
+    
+    const label2 = prod.defaults.f2.label;
+    f2LabelInput.value = label2;
+    f2PriceInput.value = prod.classes[label2].price;
+    f2KwhInput.value = prod.classes[label2].kwh;
+    f2LifetimeInput.value = prod.classes[label2].lifetime;
+
+    resultsContainer.classList.add('hidden');
+}
+
 f1LabelInput.addEventListener('change', (e) => {
-    // Optional scaling
+    const label = e.target.value;
+    const prod = products[currentProduct];
+    if (prod && prod.classes[label]) {
+        f1PriceInput.value = prod.classes[label].price;
+        f1KwhInput.value = prod.classes[label].kwh;
+        f1LifetimeInput.value = prod.classes[label].lifetime;
+    }
+});
+
+f2LabelInput.addEventListener('change', (e) => {
+    const label = e.target.value;
+    const prod = products[currentProduct];
+    if (prod && prod.classes[label]) {
+        f2PriceInput.value = prod.classes[label].price;
+        f2KwhInput.value = prod.classes[label].kwh;
+        f2LifetimeInput.value = prod.classes[label].lifetime;
+    }
+});
+
+countrySelect.addEventListener('change', (e) => {
+    co2IntensityInput.value = e.target.value;
 });
 
 calculateBtn.addEventListener('click', calculateImpact);
@@ -133,30 +176,44 @@ calculateBtn.addEventListener('click', calculateImpact);
 function calculateImpact() {
     const elecPrice = parseFloat(elecPriceInput.value);
     const co2Intensity = parseFloat(co2IntensityInput.value);
-    const mfgCo2 = parseFloat(mfgCo2Input.value); // Base manufacturing impact
+    const mfgCo2 = parseFloat(mfgCo2Input.value);
 
     const f1Price = parseFloat(f1PriceInput.value);
     const f1Kwh = parseFloat(f1KwhInput.value);
+    const f1Lifetime = parseInt(f1LifetimeInput.value, 10) || 10;
     
     const f2Price = parseFloat(f2PriceInput.value);
     const f2Kwh = parseFloat(f2KwhInput.value);
+    const f2Lifetime = parseInt(f2LifetimeInput.value, 10) || 10;
     
     const prodName = products[currentProduct].name;
 
-    // Calculate over 10 years
-    const years = Array.from({length: 11}, (_, i) => i); // 0 to 10
+    // Calculate over 20 years to better show replacement impact
+    const years = Array.from({length: 21}, (_, i) => i);
     
-    // Financial Cost Arrays
-    const f1Cost = years.map(y => f1Price + (y * f1Kwh * elecPrice));
-    const f2Cost = years.map(y => f2Price + (y * f2Kwh * elecPrice));
+    const f1Cost = years.map(y => {
+        // Number of times purchased up to year y
+        const buys = Math.floor(y / f1Lifetime) + 1;
+        return (f1Price * buys) + (y * f1Kwh * elecPrice);
+    });
+    
+    const f2Cost = years.map(y => {
+        const buys = Math.floor(y / f2Lifetime) + 1;
+        return (f2Price * buys) + (y * f2Kwh * elecPrice);
+    });
 
-    // CO2 Emissions Arrays (Now including manufacturing CO2 at year 0!)
-    const f1Co2 = years.map(y => mfgCo2 + (y * f1Kwh * co2Intensity));
-    const f2Co2 = years.map(y => mfgCo2 + (y * f2Kwh * co2Intensity));
+    const f1Co2 = years.map(y => {
+        const buys = Math.floor(y / f1Lifetime) + 1;
+        return (mfgCo2 * buys) + (y * f1Kwh * co2Intensity);
+    });
+    
+    const f2Co2 = years.map(y => {
+        const buys = Math.floor(y / f2Lifetime) + 1;
+        return (mfgCo2 * buys) + (y * f2Kwh * co2Intensity);
+    });
 
-    // Find break-even point financially
     let breakEvenYear = -1;
-    for (let y = 1; y <= 10; y++) {
+    for (let y = 1; y <= 20; y++) {
         if (f1Cost[y] > f2Cost[y] && f1Cost[y-1] <= f2Cost[y-1]) {
             breakEvenYear = y;
             break;
@@ -166,42 +223,35 @@ function calculateImpact() {
         }
     }
 
-    // Determine verdict
-    const totalCostF1 = f1Cost[10];
-    const totalCostF2 = f2Cost[10];
+    const totalCostF1 = f1Cost[20];
+    const totalCostF2 = f2Cost[20];
     
     if (totalCostF2 < totalCostF1) {
         verdictTitle.textContent = "Great Investment!";
         verdictTitle.style.color = "#34d399";
         
-        let msg = `Option B is more expensive upfront, but saves you money in the long run. `;
+        let msg = `Option B saves you money in the long run. `;
         if (breakEvenYear !== -1) {
             msg += `It pays for itself in year ${breakEvenYear}. `;
         }
-        msg += `Over 10 years, you save €${(totalCostF1 - totalCostF2).toFixed(2)} and prevent ${(f1Co2[10] - f2Co2[10]).toFixed(1)} kg of CO₂ emissions.`;
+        msg += `Over 20 years, you save €${(totalCostF1 - totalCostF2).toFixed(2)} and prevent ${(f1Co2[20] - f2Co2[20]).toFixed(1)} kg of CO₂.`;
         verdictText.textContent = msg;
     } else {
         verdictTitle.textContent = "Alternative might not be worth it financially";
         verdictTitle.style.color = "#fca5a5";
         
-        verdictText.textContent = `Over 10 years, Option A remains €${(totalCostF2 - totalCostF1).toFixed(2)} cheaper. However, Option B saves ${(f1Co2[10] - f2Co2[10]).toFixed(1)} kg of CO₂. Consider your environmental impact vs budget.`;
+        verdictText.textContent = `Over 20 years, Option A remains €${(totalCostF2 - totalCostF1).toFixed(2)} cheaper. However, Option B saves ${(f1Co2[20] - f2Co2[20]).toFixed(1)} kg of CO₂.`;
     }
 
-    // Show results
     resultsContainer.classList.remove('hidden');
 
-    // Render Charts
     renderCostChart(years, f1Cost, f2Cost, prodName);
     renderCo2Chart(years, f1Co2, f2Co2, prodName);
 }
 
 function renderCostChart(labels, dataA, dataB, prodName) {
     const ctx = document.getElementById('costChart').getContext('2d');
-    
-    if (costChartInstance) {
-        costChartInstance.destroy();
-    }
-
+    if (costChartInstance) costChartInstance.destroy();
     Chart.defaults.color = '#94a3b8';
     Chart.defaults.font.family = 'Inter';
 
@@ -216,8 +266,8 @@ function renderCostChart(labels, dataA, dataB, prodName) {
                     borderColor: '#ef4444',
                     backgroundColor: 'rgba(239, 68, 68, 0.1)',
                     borderWidth: 2,
-                    tension: 0.3,
-                    fill: true
+                    tension: 0,
+                    stepped: 'middle' // shows jumps nicely when buying new appliance
                 },
                 {
                     label: `${prodName} B (Alternative)`,
@@ -225,8 +275,8 @@ function renderCostChart(labels, dataA, dataB, prodName) {
                     borderColor: '#10b981',
                     backgroundColor: 'rgba(16, 185, 129, 0.1)',
                     borderWidth: 2,
-                    tension: 0.3,
-                    fill: true
+                    tension: 0,
+                    stepped: 'middle'
                 }
             ]
         },
@@ -234,20 +284,11 @@ function renderCostChart(labels, dataA, dataB, prodName) {
             responsive: true,
             plugins: {
                 legend: { position: 'top' },
-                tooltip: {
-                    callbacks: {
-                        label: (context) => `€${context.parsed.y.toFixed(2)}`
-                    }
-                }
+                tooltip: { callbacks: { label: (context) => `€${context.parsed.y.toFixed(2)}` } }
             },
             scales: {
-                y: {
-                    beginAtZero: false,
-                    grid: { color: 'rgba(255, 255, 255, 0.05)' }
-                },
-                x: {
-                    grid: { color: 'rgba(255, 255, 255, 0.05)' }
-                }
+                y: { beginAtZero: false, grid: { color: 'rgba(255, 255, 255, 0.05)' } },
+                x: { grid: { color: 'rgba(255, 255, 255, 0.05)' } }
             }
         }
     });
@@ -255,10 +296,7 @@ function renderCostChart(labels, dataA, dataB, prodName) {
 
 function renderCo2Chart(labels, dataA, dataB, prodName) {
     const ctx = document.getElementById('co2Chart').getContext('2d');
-    
-    if (co2ChartInstance) {
-        co2ChartInstance.destroy();
-    }
+    if (co2ChartInstance) co2ChartInstance.destroy();
 
     co2ChartInstance = new Chart(ctx, {
         type: 'line',
@@ -272,7 +310,8 @@ function renderCo2Chart(labels, dataA, dataB, prodName) {
                     borderDash: [5, 5],
                     backgroundColor: 'transparent',
                     borderWidth: 2,
-                    tension: 0.3
+                    tension: 0,
+                    stepped: 'middle'
                 },
                 {
                     label: `${prodName} B (Alternative)`,
@@ -281,7 +320,8 @@ function renderCo2Chart(labels, dataA, dataB, prodName) {
                     borderDash: [5, 5],
                     backgroundColor: 'transparent',
                     borderWidth: 2,
-                    tension: 0.3
+                    tension: 0,
+                    stepped: 'middle'
                 }
             ]
         },
@@ -289,24 +329,14 @@ function renderCo2Chart(labels, dataA, dataB, prodName) {
             responsive: true,
             plugins: {
                 legend: { position: 'top' },
-                tooltip: {
-                    callbacks: {
-                        label: (context) => `${context.parsed.y.toFixed(1)} kg`
-                    }
-                }
+                tooltip: { callbacks: { label: (context) => `${context.parsed.y.toFixed(1)} kg` } }
             },
             scales: {
-                y: {
-                    beginAtZero: true,
-                    grid: { color: 'rgba(255, 255, 255, 0.05)' }
-                },
-                x: {
-                    grid: { color: 'rgba(255, 255, 255, 0.05)' }
-                }
+                y: { beginAtZero: true, grid: { color: 'rgba(255, 255, 255, 0.05)' } },
+                x: { grid: { color: 'rgba(255, 255, 255, 0.05)' } }
             }
         }
     });
 }
 
-// Initial setup to match HTML defaults
 selectProduct('fridge');

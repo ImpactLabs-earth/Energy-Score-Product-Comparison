@@ -32,16 +32,43 @@
             <div class="card settings-card">
                 <h2>2. Global Settings</h2>
                 <div class="input-group">
-                    <label for="elec-price">Electricity Price (€/kWh)</label>
+                    <label for="country">Country of Living</label>
+                    <select id="country">
+                        <option value="0.031">France</option>
+                        <option value="0.342">Germany</option>
+                        <option value="0.117">Portugal</option>
+                        <option value="0.136">Spain</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="elec-price">
+                        Electricity Price (€/kWh)
+                        <div class="info-icon">
+                            ?
+                            <div class="tooltip">Average consumer electricity price. You can adjust this based on your current energy contract.</div>
+                        </div>
+                    </label>
                     <input type="number" id="elec-price" value="0.25" step="0.01">
                 </div>
                 <div class="input-group">
-                    <label for="co2-intensity">Grid CO₂ Intensity (kg CO₂/kWh)</label>
-                    <input type="number" id="co2-intensity" value="0.20" step="0.01">
+                    <label for="co2-intensity">
+                        Grid CO₂ Intensity (kg CO₂/kWh)
+                        <div class="info-icon">
+                            ?
+                            <div class="tooltip">CO₂ emitted to produce 1 kWh of electricity in the selected country. Source: ElectricityMaps 2025.</div>
+                        </div>
+                    </label>
+                    <input type="number" id="co2-intensity" value="0.031" step="0.001">
                 </div>
                 <div class="input-group">
-                    <label for="mfg-co2">Manufacturing Impact (kg CO₂)</label>
-                    <input type="number" id="mfg-co2" value="300" step="10" title="CO₂ emitted during the production of this item. Assume same for both.">
+                    <label for="mfg-co2">
+                        Manufacturing Impact (kg CO₂)
+                        <div class="info-icon">
+                            ?
+                            <div class="tooltip">Average CO₂ emitted during the production of this item. Assume same for both. Source: Base Empreinte ADEME.</div>
+                        </div>
+                    </label>
+                    <input type="number" id="mfg-co2" value="257" step="1">
                 </div>
             </div>
 
@@ -72,6 +99,10 @@
                         <label for="f1-kwh">Est. Yearly Consumption (kWh)</label>
                         <input type="number" id="f1-kwh" value="300">
                     </div>
+                    <div class="input-group">
+                        <label for="f1-lifetime">Estimated Lifetime (years)</label>
+                        <input type="number" id="f1-lifetime" value="10">
+                    </div>
                 </div>
 
                 <!-- Option B -->
@@ -100,6 +131,10 @@
                         <label for="f2-kwh">Est. Yearly Consumption (kWh)</label>
                         <input type="number" id="f2-kwh" value="100">
                     </div>
+                    <div class="input-group">
+                        <label for="f2-lifetime">Estimated Lifetime (years)</label>
+                        <input type="number" id="f2-lifetime" value="15">
+                    </div>
                 </div>
             </div>
 
@@ -115,11 +150,11 @@
                 
                 <div class="charts-container">
                     <div class="chart-wrapper card">
-                        <h3>Cumulative Cost (€) over 10 Years</h3>
+                        <h3>Cumulative Cost (€) over 20 Years</h3>
                         <canvas id="costChart"></canvas>
                     </div>
                     <div class="chart-wrapper card">
-                        <h3>Cumulative CO₂ (kg) over 10 Years</h3>
+                        <h3>Cumulative CO₂ (kg) over 20 Years</h3>
                         <canvas id="co2Chart"></canvas>
                     </div>
                 </div>
